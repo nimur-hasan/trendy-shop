@@ -25,6 +25,8 @@ export class AuthService {
   }
 
   async login(data: LoginDto) {
+    console.log('JWT: ', process.env.JWT_SECRET);
+
     const { email, password } = data;
 
     const user = await this.userService.findOne({ email });

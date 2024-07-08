@@ -8,6 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
+    .addServer('/api')
+    .setBasePath('/api')
     .setTitle('Backend Documentation')
     .setDescription('The backend API description')
     .setVersion('1.0')
@@ -19,7 +21,7 @@ async function bootstrap() {
       bearerFormat: 'JWT',
     })
     .build();
-  
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document, {
     customSiteTitle: 'Backend Documentation',

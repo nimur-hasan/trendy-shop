@@ -7,7 +7,7 @@ import { LoginDto } from './dto/login.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
-export class AuthenticationController {
+export class AuthController {
   constructor(private AuthService: AuthService) {}
 
   @Post('/sign-up')
