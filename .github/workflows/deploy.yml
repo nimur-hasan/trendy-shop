@@ -1,0 +1,63 @@
+name: Deploy Node.js Application
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install PM2 globally
+        run: npm install -g pm2
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Install website dependencies
+        run: |
+          cd website
+          npm install
+
+      - name: Build backend
+        run: |
+          cd backend
+          npm run build
+
+      - name: Build website
+        run: |
+          cd website
+          npm run build
+
+      - name: Stop existing PM2 processes
+        run: |
+          pm2 stop all || true
+
+      - name: Start backend with PM2
+        run: |
+          cd backend
+          pm2 start npm --name "backend" -- run start
+
+      - name: Start website with PM2
+        run: |
+          cd website
+          pm2 start npm --name "website" -- run start
+
+      - name: Save PM2 process list
+        run: pm2 save
+
+      - name: Restart nginx
+        run: sudo service nginx restart
