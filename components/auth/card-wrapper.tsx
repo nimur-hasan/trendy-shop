@@ -22,7 +22,7 @@ export default function CardWrapper({
   showSocial,
 }: CardWrapperProps) {
   return (
-    <Card className="w-[400px] border border-appBorder">
+    <Card className="w-[400px] border border-appBorder rounded-none shadow-none">
       <CardHeader>
         <Header label={headerLabel} />
       </CardHeader>

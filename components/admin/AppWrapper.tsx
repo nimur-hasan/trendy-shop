@@ -10,7 +10,7 @@ export default function AppWrapper({
     <div className="bg-appNeutral min-h-screen">
       <div className="flex justify-start">
         <Sidebar />
-        <section>{children}</section>
+        <section className="flex-grow">{children}</section>
       </div>
     </div>
   );

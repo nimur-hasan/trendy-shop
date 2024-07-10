@@ -1,8 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Avatar, AvatarImage } from "../ui/avatar";
-import { CodesandboxIcon, LayoutDashboard, LucideLogOut, ShoppingCart } from "lucide-react";
+import {
+  CodesandboxIcon,
+  Image,
+  LayoutDashboard,
+  LucideLogOut,
+  ShoppingCart,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,6 +17,7 @@ interface MenuItemProps {
   label: string;
   icon: any;
   href: string;
+  children?: string[];
   isActive?: boolean;
 }
 
@@ -19,18 +26,26 @@ const menuItems: MenuItemProps[] = [
     label: "Dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
+    children: ["/dashboard"],
   },
   {
     label: "Product",
     icon: CodesandboxIcon,
     href: "/product",
+    children: ["/product", "/product/new-product"],
   },
   {
     label: "Order",
     icon: ShoppingCart,
     href: "/order",
-    },
-  
+    children: ["/order"],
+  },
+  {
+    label: "Media Library",
+    icon: Image,
+    href: "/media-library",
+    children: ["/media-library"],
+  },
 ];
 
 const ProfileHeader = ({ children }: { children: React.ReactNode }) => {
@@ -60,8 +75,12 @@ const MenuItem = (menu: MenuItemProps) => (
 
 export default function Sidebar() {
   const pathname = usePathname();
+  useEffect(() => {
+    console.log(pathname.split("/"));
+    console.log("/product".split("/"));
+  }, []);
   return (
-    <div className="hidden min-h-screen md:flex flex-col w-72 bg-white border-r border-r-appBorder">
+    <div className="hidden min-h-screen md:flex flex-col min-w-72 w-72 bg-white border-r border-r-appBorder">
       {/* Sidebar Header */}
       <div className="h-[180px] w-full flex flex-col justify-center items-center">
         <Avatar className="h-16 w-16">
@@ -81,7 +100,7 @@ export default function Sidebar() {
             label={menuItem.label}
             icon={menuItem.icon}
             href={menuItem.href}
-            isActive={pathname === menuItem.href}
+            isActive={menuItem.children?.includes(pathname)}
           />
         ))}
       </div>
@@ -89,7 +108,10 @@ export default function Sidebar() {
       {/* Bottom section */}
       <div className="flex flex-col justify-stretch cursor-pointer">
         <div
-          className={cn("flex justify-between items-center gap-3 px-6 py-4", "")}
+          className={cn(
+            "flex justify-between items-center gap-3 px-6 py-4",
+            ""
+          )}
         >
           <p className="text-sm">Logout</p>
           <LucideLogOut className={cn("w-4", "text-red-400")} />

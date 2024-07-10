@@ -5,12 +5,17 @@ export function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  const jwt = request.cookies.get("jwt");
+  // const jwt = request.cookies.get("jwt");
+  const jwt = true
 
   const publicRoutes = ["/", "/contact-us", "/privacy-policy"];
 
   if (publicRoutes.includes(pathname)) {
     return response;
+  }
+
+  if (jwt && pathname === "/login") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   if (!jwt && pathname !== "/login") {
@@ -19,7 +24,6 @@ export function middleware(request: NextRequest) {
 
   return response;
 }
-
 
 export const config = {
   matcher: [
