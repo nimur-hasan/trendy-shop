@@ -7,7 +7,7 @@ export default function MediaLibrary() {
   return (
     <MediaLibWrappwer>
       <MediaLibHeader />
-      <MediaLibContent />
+      <MediaLibContent size="md" onClick={() => {}} refetch="" />
     </MediaLibWrappwer>
   );
 }
