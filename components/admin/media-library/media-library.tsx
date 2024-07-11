@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import MediaLibWrappwer from "./media-lib-wrapper";
 import MediaLibHeader from "./media-lib-header";
